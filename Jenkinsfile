@@ -1,11 +1,11 @@
 // Run on an agent where we want to use Go
-node {
-    // Ensure the desired Go version is installed
-    def root = tool type: 'go', name: 'Go 1.19'
-
-    // Export environment variables pointing to the directory where Go was installed
-    withEnv(["GOROOT=${root}", "PATH+GO=${root}/bin"]) {
-        sh 'go version'
-        sh 'go build'
+pipeline {
+    agent { docker { image 'golang:1.17.5-alpine' } }
+    stages {
+        stage('build') {
+            steps {
+                sh 'go version'
+            }
+        }
     }
 }
